@@ -1,0 +1,22 @@
+:host {
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+header {
+  background-color: #ef5350;
+  padding: 20px;
+  text-align: center;
+  color: white;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+main {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}

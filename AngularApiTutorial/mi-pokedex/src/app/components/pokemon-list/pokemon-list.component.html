@@ -1,0 +1,11 @@
+<h2>Lista de Pokémon</h2>
+<div class="pokemon-grid">
+  <!-- Usamos la directiva *ngFor para recorrer la lista de Pokémon -->
+  <div *ngFor="let pokemon of pokemonList" class="pokemon-card">
+    <!-- Usamos [routerLink] para crear un enlace a la página de detalles -->
+    <!-- El Data Binding con {{}} muestra el nombre del Pokémon -->
+    <a [routerLink]="['/pokemon', pokemon.name]">
+      {{ pokemon.name }}
+    </a>
+  </div>
+</div>

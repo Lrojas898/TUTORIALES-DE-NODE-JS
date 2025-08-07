@@ -270,6 +270,12 @@ app.get('/api/course/:id', async (req, res) => {
       })
       return res.status(404).json({ message: 'Course not found' })
     }
+    logger.info('Course retrieved successfully', {
+      courseId: course._id,
+      name: course.name
+    })
+    res.json(course)
+
   } catch (error) {
     logger.error('Error in searching a course by id: ', error)
     res.status(500).json({ message: error.message })
@@ -277,11 +283,10 @@ app.get('/api/course/:id', async (req, res) => {
 })
 
 //NOw we can define the student routes
-
 app.get('/api/students', async (req, res) => {
   try {
-    const student = new Student.find.sort({ createdAt: -1 })
-    logger.info(`Retrieved ${students.length} students succesfully`)
+    const students = await Student.find().sort({ createdAt: -1 })
+    logger.info(`Retrieved ${students.length} students successfully`)
     res.json(students)
   } catch (error) {
     logger.error('Error fetching students: ', error)
@@ -464,7 +469,7 @@ app.get('/api/students/search', async (req, res) => {
         //in mongoose we can use regex to find the information
         { name: { $regex: searchTerm, $options: 'i' } },
         { course: { $regex: searchTerm, $options: 'i' } },
-        { email: { $regex: searchTerm }, $options: 'i' }
+        { email: { $regex: searchTerm, $options: 'i' } }
 
         //what does $options: 'i', this means are case-insensitive, so
         //it does not matter if its on uppercase or lowercase, it will search
@@ -502,9 +507,9 @@ app.get('/api/dashboard/stats', async (req, res) => {
 
 async function getDashboardStats (params) {
   const totalStudents = await Student.countDocuments()
-  const activeStutends = await Student.countDocuments({ status: active })
+  const activeStudents = await Student.countDocuments({ status: 'active' })
   const totalCourses = await Course.countDocuments()
-  const activeCourses = await Course.countDocuments({ status: active })
+  const activeCourses = await Course.countDocuments({ status: 'active' })
   const graduates = await Student.countDocuments({ status: 'inactive' })
   //to determine how many students are in a specific course
   const courseCounts = await Student.aggregate([
@@ -513,7 +518,7 @@ async function getDashboardStats (params) {
 
   return {
     totalStudents,
-    activeStutends,
+    activeStudents,
     totalCourses,
     activeCourses,
     graduates,
