@@ -1,0 +1,18 @@
+<div class="app-container">
+  <header class="app-header">
+    <h1> Todo App Modular</h1>
+    <nav class="main-nav">
+      <a routerLink="/users" routerLinkActive="active"> Usuarios</a>
+      <a routerLink="/todo" routerLinkActive="active"> Tareas</a>
+    </nav>
+  </header>
+
+  <main class="app-content">
+    <!-- AQUÍ es donde cambian los COMPONENTES según la ruta -->
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="app-footer">
+    <p>© 2025 - Aprendiendo Angular Módulos</p>
+  </footer>
+</div>

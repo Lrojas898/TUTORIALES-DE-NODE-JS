@@ -1,0 +1,30 @@
+<div class="profile-container">
+  <!-- *ngIf para mostrar solo si hay usuario logueado -->
+  <div *ngIf="currentUser" class="profile-content">
+    <h2> Perfil de Usuario</h2>
+    
+    <div class="profile-card">
+      <div class="user-details">
+        <h3>{{currentUser.name}}</h3>
+        <p><strong>Email:</strong> {{currentUser.email}}</p>
+        <p><strong>ID:</strong> {{currentUser.id}}</p>
+        <span 
+          [ngClass]="{'active': currentUser.isActive, 'inactive': !currentUser.isActive}"
+          class="status">
+          {{currentUser.isActive ? ' Activo' : ' Inactivo'}}
+        </span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a routerLink="/todo" class="btn btn-primary"> Ir a Mis Tareas</a>
+      <button (click)="onLogout()" class="btn btn-secondary">🚪 Cerrar Sesión</button>
+    </div>
+  </div>
+
+  <!-- Mensaje si no hay usuario logueado -->
+  <div *ngIf="!currentUser" class="no-user">
+    <h2> No hay usuario logueado</h2>
+    <a routerLink="/users/login"> Iniciar Sesión</a>
+  </div>
+</div>

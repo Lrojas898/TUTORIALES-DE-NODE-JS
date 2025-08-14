@@ -1,0 +1,35 @@
+<div class="login-container">
+  <h2> Iniciar Sesión</h2>
+  
+  <form (ngSubmit)="onLogin()" class="login-form">
+    <!-- [(ngModel)] - Two-way binding -->
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input 
+        type="email" 
+        id="email"
+        [(ngModel)]="email" 
+        name="email"
+        placeholder="Ingresa tu email"
+        required>
+    </div>
+    
+    <button type="submit" class="login-btn">Iniciar Sesión</button>
+  </form>
+
+  <!-- *ngIf para mostrar mensaje -->
+  <div *ngIf="loginMessage" class="message">
+    {{loginMessage}}
+  </div>
+
+  <div class="demo-users">
+    <h3> Usuarios Demo:</h3>
+    <p>juan@ejemplo.com</p>
+    <p>maria@ejemplo.com</p>
+    <p>carlos@ejemplo.com (inactivo)</p>
+  </div>
+
+  <div class="navigation">
+    <a routerLink="/users">👈 Volver a Usuarios</a>
+  </div>
+</div>
