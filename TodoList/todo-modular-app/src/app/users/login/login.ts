@@ -5,7 +5,8 @@ import { UserService } from '../services/user.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.html',
-  styleUrls: ['./login.css']
+  styleUrls: ['./login.css'],
+  standalone: false
 })
 export class Login {
   email: string = '';

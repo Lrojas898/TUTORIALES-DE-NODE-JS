@@ -1,1 +1,103 @@
-<p>task-form works!</p>
+<div class="task-form-container">
+  <!-- *ngIf para mostrar si el usuario está logueado -->
+  <div *ngIf="isLoggedIn" class="form-content">
+    
+    <!-- Header dinámico -->
+    <div class="form-header">
+      <h2>
+        <span *ngIf="!isEditing"> Nueva Tarea para {{currentUserName}}</span>
+        <span *ngIf="isEditing"> Editar Tarea</span>
+      </h2>
+    </div>
+
+    <!-- Formulario -->
+    <form (ngSubmit)="onSubmit()" class="task-form">
+      
+      <!-- Campo Título -->
+      <div class="form-group">
+        <label for="title">Título de la tarea *</label>
+        <input 
+          type="text" 
+          id="title"
+          [(ngModel)]="task.title" 
+          name="title"
+          placeholder="Ej: Completar proyecto Angular"
+          class="form-control"
+          required>
+      </div>
+
+      <!-- Campo Descripción -->
+      <div class="form-group">
+        <label for="description">Descripción</label>
+        <textarea 
+          id="description"
+          [(ngModel)]="task.description" 
+          name="description"
+          placeholder="Describe los detalles de tu tarea..."
+          class="form-control"
+          rows="4">
+        </textarea>
+      </div>
+
+      <!-- Campo Prioridad -->
+      <div class="form-group">
+        <label for="priority">Prioridad</label>
+        <select 
+          id="priority"
+          [(ngModel)]="task.priority" 
+          name="priority"
+          class="form-control">
+          <option value="low"> Baja</option>
+          <option value="medium"> Media</option>
+          <option value="high"> Alta</option>
+        </select>
+      </div>
+
+      <!-- Vista previa de prioridad -->
+      <div class="priority-preview">
+        <span>Vista previa: </span>
+        <span [ngClass]="{
+          'priority-high': task.priority === 'high',
+          'priority-medium': task.priority === 'medium',
+          'priority-low': task.priority === 'low'
+        }">
+          <span *ngIf="task.priority === 'high'"> Alta Prioridad</span>
+          <span *ngIf="task.priority === 'medium'">Prioridad Media</span>
+          <span *ngIf="task.priority === 'low'"> Prioridad Baja</span>
+        </span>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          <span *ngIf="!isEditing"> Crear Tarea</span>
+          <span *ngIf="isEditing"> Actualizar Tarea</span>
+        </button>
+        <button type="button" (click)="onCancel()" class="btn btn-secondary">
+           Cancelar
+        </button>
+      </div>
+
+    </form>
+
+    <!-- Mensaje de resultado -->
+    <div *ngIf="saveMessage" 
+         class="save-message"
+         [ngClass]="{
+           'success': saveMessage.includes('correctamente'),
+           'error': saveMessage.includes('Error') || saveMessage.includes('obligatorio')
+         }">
+      {{saveMessage}}
+    </div>
+
+  </div>
+
+  <!-- *ngIf para mostrar cuando NO está logueado -->
+  <div *ngIf="!isLoggedIn" class="not-logged-in">
+    <div class="login-prompt">
+      <h2> Acceso Requerido</h2>
+      <p>Necesitas iniciar sesión para crear o editar tareas.</p>
+      <button (click)="goToLogin()" class="btn btn-primary"> Iniciar Sesión</button>
+    </div>
+  </div>
+</div>

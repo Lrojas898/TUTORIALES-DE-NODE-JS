@@ -1,1 +1,62 @@
-<p>task-item works!</p>
+<div class="task-item" 
+     [ngClass]="{
+       'completed': task.isDone,
+       'pending': !task.isDone,
+       'high-priority': task.priority === 'high' && !task.isDone,
+       'medium-priority': task.priority === 'medium' && !task.isDone,
+       'low-priority': task.priority === 'low' && !task.isDone
+     }">
+  
+  <!-- Checkbox para marcar como completada -->
+  <div class="task-checkbox">
+    <input 
+      type="checkbox" 
+      [checked]="task.isDone"
+      (change)="onToggleComplete()"
+      [id]="'task-' + task.id">
+    <label [for]="'task-' + task.id" class="checkbox-label"></label>
+  </div>
+
+  <!-- Contenido de la tarea -->
+  <div class="task-content">
+    <div class="task-header">
+      <h3 [ngClass]="{'completed-text': task.isDone}">
+        {{task.title}}
+      </h3>
+      <div class="task-priority">
+        <span class="priority-icon">{{getPriorityIcon()}}</span>
+        <span class="priority-text">{{getPriorityText()}}</span>
+      </div>
+    </div>
+
+    <!-- *ngIf para mostrar descripción solo si existe -->
+    <p *ngIf="task.description" 
+       class="task-description" 
+       [ngClass]="{'completed-text': task.isDone}">
+      {{task.description}}
+    </p>
+
+    <div class="task-meta">
+      <span class="task-date"> {{formatDate(task.createdAt)}}</span>
+      <!-- *ngIf para mostrar estado -->
+      <span *ngIf="task.isDone" class="task-status completed"> Completada</span>
+      <span *ngIf="!task.isDone" class="task-status pending"> Pendiente</span>
+    </div>
+  </div>
+
+  <!-- Acciones -->
+  <div class="task-actions">
+    <button 
+      (click)="onEdit()" 
+      class="btn btn-edit"
+      title="Editar tarea">
+      
+    </button>
+    <button 
+      (click)="onDelete()" 
+      class="btn btn-delete"
+      title="Eliminar tarea">
+      🗑️
+    </button>
+  </div>
+</div>

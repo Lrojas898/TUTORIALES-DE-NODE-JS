@@ -1,1 +1,76 @@
-<p>task-list works!</p>
+<div class="task-list-container">
+  <!-- *ngIf para mostrar si el usuario está logueado -->
+  <div *ngIf="isLoggedIn" class="logged-in-content">
+    
+    <!-- Header con información del usuario -->
+    <div class="header">
+      <h2> Tareas de {{currentUserName}}</h2>
+      <button (click)="onCreateTask()" class="btn btn-primary"> Nueva Tarea</button>
+    </div>
+
+    <!-- Estadísticas -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>{{stats.total}}</h3>
+        <p>Total</p>
+      </div>
+      <div class="stat-card">
+        <h3>{{stats.completed}}</h3>
+        <p>Completadas</p>
+      </div>
+      <div class="stat-card">
+        <h3>{{stats.pending}}</h3>
+        <p>Pendientes</p>
+      </div>
+      <div class="stat-card high-priority">
+        <h3>{{stats.highPriority}}</h3>
+        <p>Alta Prioridad</p>
+      </div>
+    </div>
+
+    <!-- Lista de tareas -->
+    <div class="tasks-section">
+      <!-- *ngIf para mostrar mensaje cuando no hay tareas -->
+      <div *ngIf="tasks.length === 0" class="no-tasks">
+        <h3>🎉 ¡No tienes tareas!</h3>
+        <p>Crea tu primera tarea haciendo clic en "Nueva Tarea"</p>
+      </div>
+
+      <!-- *ngFor para mostrar lista de tareas -->
+      <div *ngFor="let task of tasks" class="task-card">
+        <!-- Usar el componente TaskItem -->
+        <app-task-item 
+          [task]="task"
+          (toggleComplete)="onToggleComplete($event)"
+          (deleteTask)="onDeleteTask($event)"
+          (editTask)="onEditTask($event)">
+        </app-task-item>
+      </div>
+    </div>
+
+    <!-- Navegación -->
+    <div class="navigation">
+      <a routerLink="/users"> Volver a Usuarios</a>
+      <a routerLink="/users/profile"> Mi Perfil</a>
+    </div>
+
+  </div>
+
+  <!-- *ngIf para mostrar cuando NO está logueado -->
+  <div *ngIf="!isLoggedIn" class="not-logged-in">
+    <div class="login-prompt">
+      <h2> Acceso Requerido</h2>
+      <p>Necesitas iniciar sesión para ver tus tareas.</p>
+      <button (click)="goToLogin()" class="btn btn-primary"> Iniciar Sesión</button>
+      
+      <div class="demo-info">
+        <h3> Demo de Tareas</h3>
+        <p>Inicia sesión con cualquiera de estos usuarios para ver sus tareas:</p>
+        <ul>
+          <li><strong>juan@ejemplo.com</strong> - 2 tareas</li>
+          <li><strong>maria@ejemplo.com</strong> - 2 tareas</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

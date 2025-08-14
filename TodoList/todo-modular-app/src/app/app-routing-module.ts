@@ -7,6 +7,10 @@ const routes: Routes = [
     path: 'users', 
     loadChildren: () => import('./users/users-module').then(m => m.UsersModule)
   },
+  { 
+    path: 'todo', 
+    loadChildren: () => import('./todo/todo-module').then(m => m.TodoModule)
+  }
   
 ];
 
